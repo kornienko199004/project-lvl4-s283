@@ -1,0 +1,12 @@
+env:
+  node: true
+  jest: true
+  browser: true
+
+parser: babel-eslint
+
+extends:
+  - 'airbnb-base'
+
+rules: 
+  no-restricted-syntax: 0
