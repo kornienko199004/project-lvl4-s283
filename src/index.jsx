@@ -41,6 +41,22 @@ export default (initialState) => {
       store.dispatch(actions.fetchMessage({ message: attributes }));
     });
 
+  socket
+    .on('newChannel', ({ data: { attributes } }) => {
+      store.dispatch(actions.fetchChannels({ channel: attributes }));
+    });
+
+  socket
+    .on('removeChannel', ({ data: { id } }) => {
+      store.dispatch(actions.fetchChannelsAfterDelete({ currentId: id }));
+    });
+
+  socket
+    .on('renameChannel', ({ data: { id, attributes } }) => {
+      store
+        .dispatch(actions.fetchChannelsAfterRename({ currentId: id, currentChannel: attributes }));
+    });
+
   render(
     <Provider store={store}>
       <App />

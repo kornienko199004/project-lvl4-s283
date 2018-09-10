@@ -4,11 +4,7 @@ const getMessages = state => state.messages;
 const getChannels = state => state.channels;
 const getUserName = state => state.userName;
 const getCurrentChannelId = state => state.currentChannelId;
-
-export const messagesSelector = createSelector(
-  getMessages,
-  messages => messages,
-);
+const getModalWindowState = state => state.modalWindow;
 
 export const channelsSelector = createSelector(
   getChannels,
@@ -23,4 +19,16 @@ export const userNameSelector = createSelector(
 export const currentChannelIdSelector = createSelector(
   getCurrentChannelId,
   id => id,
+);
+
+
+export const messagesSelector = createSelector(
+  currentChannelIdSelector,
+  getMessages,
+  (currentId, messages) => messages.filter(({ channelId }) => channelId === currentId),
+);
+
+export const modalWindowState = createSelector(
+  getModalWindowState,
+  modalWindow => modalWindow,
 );
