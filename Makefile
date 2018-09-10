@@ -8,8 +8,7 @@ install-deps:
 
 build:
 	rm -rf dist
-	npm run build
-	npm run webpack -- -p --env production && babel frontend --out-dir dist --source-maps inline
+	NODE_ENV=production npm run build
 
 test:
 	npm test
