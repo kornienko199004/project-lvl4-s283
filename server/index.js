@@ -32,12 +32,6 @@ export default () => {
       config: webpackConfig,
     }));
   }
-  /*
-  // app.use(serve(path.join(__dirname, '..', 'public')));
-  app.use(middleware({
-    config: webpackConfig,
-  }));
-*/
   const router = new Router();
 
   app.use(koaLogger());
