@@ -3,9 +3,6 @@
   "version": "0.0.1",
   "description": "Hexlet 4-th level project",
   "main": "dist/index.js",
-  "bin": {
-    "hexlet": "dist/bin/hexlet.js"
-  },
   "engines": {
     "node": "9"
   },
