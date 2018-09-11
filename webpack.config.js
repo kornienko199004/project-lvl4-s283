@@ -8,7 +8,9 @@ module.exports = {
     extensions: ['.js', '.jsx'],
   },
   output: {
-    publicPath: '/assets/',
+    filename: 'main.js',
+    path: `${__dirname}/dist/`,
+    publicPath: '/',
   },
   module: {
     rules: [
