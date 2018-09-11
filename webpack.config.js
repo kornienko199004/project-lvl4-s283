@@ -8,8 +8,8 @@ module.exports = {
     extensions: ['.js', '.jsx'],
   },
   output: {
-    filename: 'main.js',
-    path: `${__dirname}/dist/`,
+    filename: 'application.js',
+    path: `${__dirname}/dist/assets`,
     publicPath: '/',
   },
   module: {
