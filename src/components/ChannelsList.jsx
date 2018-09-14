@@ -1,9 +1,10 @@
 import React from 'react';
 import cn from 'classnames';
+import { Nav, NavItem, NavLink } from 'reactstrap';
 import Octicon, { Pencil, Trashcan } from '@githubprimer/octicons-react';
 import connect from '../connect';
 import {
-  userNameSelector, currentChannelIdSelector, channelsSelector, modalWindowState,
+  userNameSelector, currentChannelIdSelector, channelsSelector,
 } from '../selectors';
 
 const mapStateToProps = (state) => {
@@ -11,7 +12,6 @@ const mapStateToProps = (state) => {
     channels: channelsSelector(state),
     currentChannelId: currentChannelIdSelector(state),
     userName: userNameSelector(state),
-    modalWindow: modalWindowState(state),
   };
   return props;
 };
@@ -20,8 +20,8 @@ const mapStateToProps = (state) => {
 class ChannelsList extends React.Component {
   onClick = id => (e) => {
     e.preventDefault();
-    const { currentChannelId, changeCurrentChannelId } = this.props;
-    if (id !== currentChannelId) {
+    const { channels, changeCurrentChannelId } = this.props;
+    if (id !== channels.currentChannelId) {
       changeCurrentChannelId({ id });
     }
   }
@@ -34,26 +34,41 @@ class ChannelsList extends React.Component {
 
   removeChannel = (id, channelName) => (e) => {
     e.preventDefault();
+    e.stopPropagation();
     const { modalOpen } = this.props;
     modalOpen({ name: 'remove channel', id, channelName });
   }
 
   renameChannel = (id, channelName) => (e) => {
     e.preventDefault();
+    e.stopPropagation();
     const { modalOpen } = this.props;
     modalOpen({ name: 'rename channel', id, channelName });
   }
 
-  renderChannel = (name, removable, id) => {
+  renderChannel = (name, removable, id, currentChannelId) => {
+    let channelControl = null;
+    const className = cn({
+      'd-flex': true,
+      'flex-nowrap': true,
+      'justify-content-between': true,
+      'border-top': true,
+      'border-light': true,
+    });
     if (removable) {
-      return (
-        <div className="d-flex, p-0, justify-content-between, align-items-baseline">
+      channelControl = (
+        <div className="d-flex justify-content-end">
           <button type="button" className="border-0 bg-transparent" onClick={this.renameChannel(id, name)}><Octicon icon={Pencil} /></button>
           <button type="button" className="border-0 bg-transparent" onClick={this.removeChannel(id, name)}><Octicon icon={Trashcan} /></button>
         </div>
       );
     }
-    return null;
+    return (
+      <NavLink onClick={this.onClick(id)} active={id === currentChannelId} href="#" className={className}>
+        {name}
+        {channelControl}
+      </NavLink>
+    );
   }
 
   render() {
@@ -61,33 +76,13 @@ class ChannelsList extends React.Component {
     return (
       <div className="col-sm-3">
         <h4>{userName}</h4>
-        <ul className="list-group flex-column nav-pills mb-5 border rounded">
-          {channels.map(({ id, name, removable }) => {
-            const className = cn({
-              'list-group-item': true,
-              active: id === currentChannelId,
-              'd-flex': true,
-              'p-0': true,
-              'justify-content-between': true,
-              'align-items-baseline': true,
-            });
-            const buttonClassName = cn({
-              btn: true,
-              'btn-link': true,
-              'text-light': id === currentChannelId,
-              active: id === currentChannelId,
-              'w-50': true,
-              'p-2': true,
-              'text-left': true,
-            });
-            return (
-              <li key={id} className={className}>
-                <button type="button" className={buttonClassName} onClick={this.onClick(id)}>{name}</button>
-                {this.renderChannel(name, removable, id)}
-              </li>
-            );
-          })}
-        </ul>
+        <Nav vertical pills className="border-light border mb-5">
+          {channels.map(({ id, name, removable }) => (
+            <NavItem key={id}>
+              {this.renderChannel(name, removable, id, currentChannelId)}
+            </NavItem>
+          ))}
+        </Nav>
         <button type="button" className="btn btn-secondary" onClick={this.addChannel}>Add channel</button>
       </div>
     );

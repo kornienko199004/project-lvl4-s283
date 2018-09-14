@@ -1,13 +1,12 @@
 import React from 'react';
 import { Field, reduxForm } from 'redux-form';
 import connect from '../connect';
-import { userNameSelector, currentChannelIdSelector, modalWindowState } from '../selectors';
+import { userNameSelector, currentChannelIdSelector } from '../selectors';
 
 const mapStateToProps = (state) => {
   const props = {
     userName: userNameSelector(state),
     currentChannelId: currentChannelIdSelector(state),
-    modalWindow: modalWindowState(state),
   };
   return props;
 };
@@ -18,16 +17,16 @@ class MessagesForm extends React.Component {
     const {
       addMessage, currentChannelId, userName,
     } = this.props;
-    addMessage({ id: currentChannelId, text: message, userName });
+    return addMessage({ id: currentChannelId, text: message, userName });
   }
 
   render() {
-    const { handleSubmit, modalWindow } = this.props;
+    const { handleSubmit, submitting, pristine } = this.props;
     return (
       <form className="form" onSubmit={handleSubmit(this.addMessage)}>
         <div className="form-group d-flex justify-content-end flex-wrap">
           <Field name="message" required component="textarea" type="text" className="form-control mb-4" rows="1" />
-          <button type="submit" className="btn btn-primary btn-sm col-auto" disabled={!modalWindow.formDisable}>Send message</button>
+          <button type="submit" className="btn btn-primary btn-sm col-auto" disabled={submitting || pristine}>Send message</button>
         </div>
       </form>
     );

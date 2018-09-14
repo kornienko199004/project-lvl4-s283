@@ -1,20 +1,20 @@
 import React from 'react';
 import connect from '../../connect';
-import { modalWindowState, currentChannelIdSelector } from '../../selectors';
+import { UiStateSelector, currentChannelIdSelector } from '../../selectors';
 
 const mapStateToProps = (state) => {
   const props = {
     currentChannelId: currentChannelIdSelector(state),
-    modalWindow: modalWindowState(state),
+    uiState: UiStateSelector(state),
   };
   return props;
 };
 
 @connect(mapStateToProps)
 class RemoveForm extends React.Component {
-  modalClose = () => {
-    const { modalClose } = this.props;
-    modalClose();
+  modalToggle = () => {
+    const { modalToggle } = this.props;
+    modalToggle();
   }
 
   removeChannel = id => () => {
@@ -23,8 +23,8 @@ class RemoveForm extends React.Component {
   }
 
   render() {
-    const { modalWindow } = this.props;
-    const channelName = ` "${modalWindow.channelName}"`;
+    const { uiState } = this.props;
+    const channelName = ` "${uiState.channelName}"`;
     return (
       <div>
         <div className="alert alert-danger" role="alert">
@@ -32,8 +32,8 @@ class RemoveForm extends React.Component {
           {channelName}
         </div>
         <div className="d-flex justify-content-around">
-          <button type="submit" className="btn btn-danger" onClick={this.removeChannel(modalWindow.id)}>Remove channel</button>
-          <button type="submit" className="btn btn-primary" onClick={this.modalClose}>Cancel</button>
+          <button type="submit" className="btn btn-danger" onClick={this.removeChannel(uiState.id)}>Remove channel</button>
+          <button type="submit" className="btn btn-primary" onClick={this.modalToggle}>Cancel</button>
         </div>
       </div>
     );

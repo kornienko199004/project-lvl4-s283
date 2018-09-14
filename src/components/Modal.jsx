@@ -1,25 +1,25 @@
 import React from 'react';
-import { Modal } from 'react-bootstrap';
+import { Modal, ModalHeader, ModalBody } from 'reactstrap';
 import { reduxForm } from 'redux-form';
 import AddForm from './forms/AddForm';
 import RenameForm from './forms/RenameForm';
 import RemoveForm from './forms/RemoveForm';
 import connect from '../connect';
-import { modalWindowState, currentChannelIdSelector } from '../selectors';
+import { UiStateSelector, currentChannelIdSelector } from '../selectors';
 
 const mapStateToProps = (state) => {
   const props = {
     currentChannelId: currentChannelIdSelector(state),
-    modalWindow: modalWindowState(state),
+    UiState: UiStateSelector(state),
   };
   return props;
 };
 
 @connect(mapStateToProps)
 class ModalWindow extends React.Component {
-  modalClose = () => {
-    const { modalClose } = this.props;
-    modalClose();
+  modalToggle = () => {
+    const { modalToggle } = this.props;
+    modalToggle();
   }
 
   formChoose = (name) => {
@@ -36,17 +36,17 @@ class ModalWindow extends React.Component {
   }
 
   render() {
-    const { modalWindow } = this.props;
+    const { UiState } = this.props;
 
     return (
       <div>
-        <Modal show={modalWindow.open} onHide={this.modalClose}>
-          <Modal.Header closeButton>
-            <Modal.Title>{modalWindow.name === 'add channel' ? modalWindow.name : modalWindow.channelName}</Modal.Title>
-          </Modal.Header>
-          <Modal.Body>
-            {this.formChoose(modalWindow.name, modalWindow.id, modalWindow.channelName)}
-          </Modal.Body>
+        <Modal isOpen={UiState.open} toggle={this.modalToggle}>
+          <ModalHeader toggle={this.modalToggle}>
+            {UiState.name === 'add channel' ? UiState.name : UiState.channelName}
+          </ModalHeader>
+          <ModalBody>
+            {this.formChoose(UiState.name, UiState.id, UiState.channelName)}
+          </ModalBody>
         </Modal>
       </div>
     );

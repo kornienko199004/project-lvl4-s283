@@ -17,13 +17,12 @@ export default (initialState) => {
 
   const store = createStore(
     reducers,
-    initialState,
     compose(
       applyMiddleware(thunk),
       ext ? ext() : f => f,
     ),
   );
-
+  store.dispatch(actions.initState({ initialState }));
   let userName;
   if (!cookie.get('userName')) {
     const firstName = faker.fake('{{name.firstName}}');

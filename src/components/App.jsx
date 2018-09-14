@@ -2,7 +2,7 @@ import React from 'react';
 import ChannelsList from './ChannelsList';
 import MessagesForm from './MessagesForm';
 import MessagesList from './MessagesList';
-import Example from './Modal';
+import Modal from './Modal';
 
 const App = () => (
   <div className="container">
@@ -11,7 +11,7 @@ const App = () => (
       <div className="col-sm-8">
         <MessagesList />
         <MessagesForm />
-        <Example />
+        <Modal />
       </div>
     </div>
   </div>

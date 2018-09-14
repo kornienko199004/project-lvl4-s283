@@ -25,7 +25,7 @@ class MessagesList extends React.Component {
           {currentChannelName}
         </h4>
         {messages.map(({ text, userName, id }) => (
-          <p key={id}>
+          <p key={id} className="w-100" style={{ overflowWrap: 'break-word' }}>
             <b>{userName}</b>
             <b>: </b>
             {text}
