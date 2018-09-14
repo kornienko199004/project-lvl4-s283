@@ -1,10 +1,10 @@
 import { createSelector } from 'reselect';
 
 const getMessages = state => state.messages;
-const getChannels = state => state.channels;
+const getChannels = state => Object.values(state.channels.byId);
 const getUserName = state => state.userName;
-const getCurrentChannelId = state => state.currentChannelId;
-const getModalWindowState = state => state.modalWindow;
+const getCurrentChannelId = state => state.channels.currentChannelId;
+const getUiState = state => state.UiState;
 
 export const channelsSelector = createSelector(
   getChannels,
@@ -25,10 +25,11 @@ export const currentChannelIdSelector = createSelector(
 export const messagesSelector = createSelector(
   currentChannelIdSelector,
   getMessages,
-  (currentId, messages) => messages.filter(({ channelId }) => channelId === currentId),
+  (currentId, messages) => Object.values(messages.byId)
+    .filter(({ channelId }) => channelId === currentId),
 );
 
-export const modalWindowState = createSelector(
-  getModalWindowState,
-  modalWindow => modalWindow,
+export const UiStateSelector = createSelector(
+  getUiState,
+  uiState => uiState,
 );
