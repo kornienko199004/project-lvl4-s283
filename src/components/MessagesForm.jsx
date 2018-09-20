@@ -25,7 +25,7 @@ class MessagesForm extends React.Component {
     return (
       <form className="form" onSubmit={handleSubmit(this.addMessage)}>
         <div className="form-group d-flex justify-content-end flex-wrap">
-          <Field name="message" required component="textarea" type="text" className="form-control mb-4" rows="1" />
+          <Field name="message" required component="input" type="text" className="form-control mb-4" rows="1" />
           <button type="submit" className="btn btn-primary btn-sm col-auto" disabled={submitting || pristine}>Send message</button>
         </div>
       </form>

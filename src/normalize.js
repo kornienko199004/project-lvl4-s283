@@ -31,9 +31,8 @@ export const normalizeStateAfterDelete = (state, currentId) => ({
 });
 
 export const normalizeStateAfterRename = (state, currentId, currentChannel) => ({
+  ...state,
   byId: {
     ...state.byId, [currentId]: currentChannel,
   },
-  allIds: state.allIds,
-  currentChannelId: state.currentChannelId,
 });

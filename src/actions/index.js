@@ -38,6 +38,8 @@ export const addMessage = ({ id, text, userName }) => async (dispatch) => {
     const response = await axios.post(routes.messageslUrl(id), sendData);
     dispatch(addMessageSuccess({ message: response.data }));
   } catch (e) {
+  /* eslint-disable no-console */
+    console.log(e);
     dispatch(addMessageFailure());
   }
 };
@@ -48,6 +50,7 @@ export const addChannel = ({ name }) => async (dispatch) => {
     const response = await axios.post(routes.channelsUrl(), sendData);
     dispatch(addChannelSuccess({ channel: response.data }));
   } catch (e) {
+    console.log(e);
     dispatch(addChannelFailure());
   }
 };
@@ -58,6 +61,7 @@ export const removeChannel = ({ id }) => async (dispatch) => {
     await axios.delete(routes.channelUrl(id), sendData);
     dispatch(removeChannelSuccess({ id }));
   } catch (e) {
+    console.log(e);
     dispatch(removeChannelFailure());
   }
 };
@@ -68,6 +72,8 @@ export const renameChannel = ({ id, name }) => async (dispatch) => {
     await axios.patch(routes.channelUrl(id), sendData);
     dispatch(renameChannelSuccess({ name }));
   } catch (e) {
+    console.log(e);
+    /* eslint-enable no-console */
     dispatch(renameChannelFailure());
   }
 };
