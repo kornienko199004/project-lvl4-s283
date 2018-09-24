@@ -1,8 +1,7 @@
 import React from 'react';
-import cookie from 'js-cookie';
 import { Field, reduxForm } from 'redux-form';
 import connect from '../connect';
-import { userNameSelector, currentChannelIdSelector } from '../selectors';
+import { currentChannelIdSelector } from '../selectors';
 
 const mapStateToProps = (state) => {
   const props = {
@@ -15,9 +14,8 @@ const mapStateToProps = (state) => {
 class MessagesForm extends React.Component {
   addMessage = ({ message }) => {
     const {
-      addMessage, currentChannelId, reset,
+      addMessage, currentChannelId, userName, reset,
     } = this.props;
-    const userName = cookie.get('userName');
     return addMessage({
       id: currentChannelId, text: message, userName, reset,
     });

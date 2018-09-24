@@ -1,4 +1,5 @@
 import _ from 'lodash';
+// import { normalize, schema } from 'normalizr';
 
 export const normalizeState = (state, item) => ({
   byId: {
@@ -21,7 +22,20 @@ export const normalizeInitState = (initialState, state, items) => {
   };
   return normalizedState;
 };
-
+/*
+export const normalizeInitState = (initialState, states, items) => {
+  console.log('initialState');
+  console.log(initialState);
+  const data = initialState;
+  const channel = new schema.Entity('channels');
+  const state = new schema.Array(channel);
+  console.log(data.channels);
+  const normalizedData = normalize(data.channels, state);
+  console.log(normalizedData);
+  console.log({ ...normalizedData, currentChannelId: initialState.currentChannelId });
+  return normalizedData;
+}
+*/
 export const normalizeStateAfterDelete = (state, currentId) => ({
   byId: {
     ..._.omit(state.byId, currentId),

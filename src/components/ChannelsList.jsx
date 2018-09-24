@@ -1,11 +1,10 @@
 import React from 'react';
-import cookie from 'js-cookie';
 import cn from 'classnames';
 import { Nav, NavItem, NavLink } from 'reactstrap';
 import Octicon, { Pencil, Trashcan } from '@githubprimer/octicons-react';
 import connect from '../connect';
 import {
-  userNameSelector, currentChannelIdSelector, channelsSelector,
+  currentChannelIdSelector, channelsSelector,
 } from '../selectors';
 
 const mapStateToProps = (state) => {
@@ -70,8 +69,7 @@ class ChannelsList extends React.Component {
   }
 
   render() {
-    const { channels, currentChannelId } = this.props;
-    const userName = cookie.get('userName');
+    const { channels, currentChannelId, userName } = this.props;
 
     return (
       <div className="col-sm-3">

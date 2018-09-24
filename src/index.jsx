@@ -2,13 +2,14 @@ import React from 'react';
 import { render } from 'react-dom';
 import { Provider } from 'react-redux';
 import thunk from 'redux-thunk';
-import { createStore, applyMiddleware, compose } from 'redux';
-import io from 'socket.io-client';
 import cookie from 'js-cookie';
 import faker from 'faker';
+import { createStore, applyMiddleware, compose } from 'redux';
+import io from 'socket.io-client';
 import reducers from './reducers';
 import App from './components/App.jsx';
 import * as actions from './actions';
+import UserNameContext from './user-context';
 
 export default (initialState) => {
   /* eslint-disable no-underscore-dangle */
@@ -27,7 +28,7 @@ export default (initialState) => {
   if (!cookie.get('userName')) {
     const firstName = faker.fake('{{name.firstName}}');
     const lastName = faker.fake('{{name.lastName}}');
-    userName = ` ${lastName} ${firstName}`;
+    const userName = ` ${lastName} ${firstName}`;
     cookie.set('userName', userName);
   }
 
@@ -55,7 +56,9 @@ export default (initialState) => {
 
   render(
     <Provider store={store}>
-      <App />
+      <UserNameContext.Provider value={cookie.get('userName')}>
+        <App />
+      </UserNameContext.Provider>
     </Provider>,
     document.getElementById('chat'),
   );
