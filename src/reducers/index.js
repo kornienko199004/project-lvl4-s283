@@ -49,12 +49,6 @@ const messages = handleActions({
   allIds: [],
 });
 
-const userName = handleActions({
-  [actions.setUserName](state, { payload: { name } }) {
-    return name;
-  },
-}, '');
-
 const UiState = handleActions({
   [actions.modalOpen](state, { payload: { name, id, channelName } }) {
     return {
@@ -78,25 +72,9 @@ const UiState = handleActions({
   name: 'none', open: false, id: '', channelName: 'none',
 });
 
-const channelFormFeducer = handleActions({
-  [actions.addChannelSuccess]() {
-    return undefined;
-  },
-}, {});
-
-const messageFormFeducer = handleActions({
-  [actions.addMessageSuccess]() {
-    return undefined;
-  },
-}, {});
-
 export default combineReducers({
   channels,
   messages,
-  userName,
   UiState,
-  form: formReducer.plugin({
-    ChannelForm: channelFormFeducer,
-    MessagesForm: messageFormFeducer,
-  }),
+  form: formReducer,
 });

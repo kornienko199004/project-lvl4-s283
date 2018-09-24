@@ -25,5 +25,5 @@ class AddForm extends React.Component {
 }
 
 export default reduxForm({
-  form: 'DeleteForm',
+  form: 'AddForm',
 })(AddForm);

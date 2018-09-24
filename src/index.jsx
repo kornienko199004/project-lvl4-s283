@@ -23,16 +23,13 @@ export default (initialState) => {
     ),
   );
   store.dispatch(actions.initState({ initialState }));
-  let userName;
+
   if (!cookie.get('userName')) {
     const firstName = faker.fake('{{name.firstName}}');
     const lastName = faker.fake('{{name.lastName}}');
     userName = ` ${lastName} ${firstName}`;
     cookie.set('userName', userName);
   }
-
-  userName = cookie.get('userName');
-  store.dispatch(actions.setUserName({ name: userName }));
 
   const socket = io();
   socket

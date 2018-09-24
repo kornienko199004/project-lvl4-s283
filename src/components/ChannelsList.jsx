@@ -1,4 +1,5 @@
 import React from 'react';
+import cookie from 'js-cookie';
 import cn from 'classnames';
 import { Nav, NavItem, NavLink } from 'reactstrap';
 import Octicon, { Pencil, Trashcan } from '@githubprimer/octicons-react';
@@ -11,7 +12,6 @@ const mapStateToProps = (state) => {
   const props = {
     channels: channelsSelector(state),
     currentChannelId: currentChannelIdSelector(state),
-    userName: userNameSelector(state),
   };
   return props;
 };
@@ -46,8 +46,14 @@ class ChannelsList extends React.Component {
     modalOpen({ name: 'rename channel', id, channelName });
   }
 
+  renderRemovable = (id, name) => (
+    <div className="d-flex justify-content-end">
+      <button type="button" className="border-0 bg-transparent" onClick={this.renameChannel(id, name)}><Octicon icon={Pencil} /></button>
+      <button type="button" className="border-0 bg-transparent" onClick={this.removeChannel(id, name)}><Octicon icon={Trashcan} /></button>
+    </div>
+  );
+
   renderChannel = (name, removable, id, currentChannelId) => {
-    let channelControl = null;
     const className = cn({
       'd-flex': true,
       'flex-nowrap': true,
@@ -55,24 +61,18 @@ class ChannelsList extends React.Component {
       'border-top': true,
       'border-light': true,
     });
-    if (removable) {
-      channelControl = (
-        <div className="d-flex justify-content-end">
-          <button type="button" className="border-0 bg-transparent" onClick={this.renameChannel(id, name)}><Octicon icon={Pencil} /></button>
-          <button type="button" className="border-0 bg-transparent" onClick={this.removeChannel(id, name)}><Octicon icon={Trashcan} /></button>
-        </div>
-      );
-    }
     return (
       <NavLink onClick={this.onClick(id)} active={id === currentChannelId} href="#" className={className}>
         {name}
-        {channelControl}
+        {removable && this.renderRemovable(id, name)}
       </NavLink>
     );
   }
 
   render() {
-    const { channels, userName, currentChannelId } = this.props;
+    const { channels, currentChannelId } = this.props;
+    const userName = cookie.get('userName');
+
     return (
       <div className="col-sm-3">
         <h4>{userName}</h4>

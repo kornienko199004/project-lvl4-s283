@@ -16,8 +16,6 @@ export const removeChannelFailure = createAction('CHANNEL_REMOVE_FAILURE');
 export const renameChannelSuccess = createAction('CHANNEL_RENAME_SUCCESS');
 export const renameChannelFailure = createAction('CHANNEL_RENAME_FAILURE');
 
-export const setUserName = createAction('SET_USER_NAME');
-
 export const fetchMessage = createAction('MESSAGE_FETCH');
 
 export const fetchChannels = createAction('CHANNELS_FETCH');
@@ -32,11 +30,14 @@ export const modalToggle = createAction('MODAL_TOGGLE_VISIBILITY');
 export const makeFormEnable = createAction('MAKE_FORM_ENABLE');
 export const makeFormDisable = createAction('MAKE_FORM_DISABLE');
 
-export const addMessage = ({ id, text, userName }) => async (dispatch) => {
+export const addMessage = ({
+  id, text, userName, reset,
+}) => async (dispatch) => {
   const sendData = { data: { attributes: { text, userName } } };
   try {
     const response = await axios.post(routes.messageslUrl(id), sendData);
     dispatch(addMessageSuccess({ message: response.data }));
+    reset();
   } catch (e) {
   /* eslint-disable no-console */
     console.log(e);

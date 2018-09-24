@@ -1,11 +1,11 @@
 import React from 'react';
+import cookie from 'js-cookie';
 import { Field, reduxForm } from 'redux-form';
 import connect from '../connect';
 import { userNameSelector, currentChannelIdSelector } from '../selectors';
 
 const mapStateToProps = (state) => {
   const props = {
-    userName: userNameSelector(state),
     currentChannelId: currentChannelIdSelector(state),
   };
   return props;
@@ -15,13 +15,18 @@ const mapStateToProps = (state) => {
 class MessagesForm extends React.Component {
   addMessage = ({ message }) => {
     const {
-      addMessage, currentChannelId, userName,
+      addMessage, currentChannelId, reset,
     } = this.props;
-    return addMessage({ id: currentChannelId, text: message, userName });
+    const userName = cookie.get('userName');
+    return addMessage({
+      id: currentChannelId, text: message, userName, reset,
+    });
   }
 
   render() {
-    const { handleSubmit, submitting, pristine } = this.props;
+    const {
+      handleSubmit, submitting, pristine,
+    } = this.props;
     return (
       <form className="form" onSubmit={handleSubmit(this.addMessage)}>
         <div className="form-group d-flex justify-content-end flex-wrap">
