@@ -3,6 +3,7 @@ import { Field, reduxForm } from 'redux-form';
 import connect from '../../connect';
 
 @connect()
+@reduxForm({ form: 'AddForm' })
 class AddForm extends React.Component {
   addChannel = ({ newChannel }) => {
     const { addChannel } = this.props;
@@ -24,6 +25,4 @@ class AddForm extends React.Component {
   }
 }
 
-export default reduxForm({
-  form: 'AddForm',
-})(AddForm);
+export default AddForm;

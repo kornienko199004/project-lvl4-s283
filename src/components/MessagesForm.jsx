@@ -11,6 +11,7 @@ const mapStateToProps = (state) => {
 };
 
 @connect(mapStateToProps)
+@reduxForm({ form: 'MessagesForm' })
 class MessagesForm extends React.Component {
   addMessage = ({ message }) => {
     const {
@@ -36,6 +37,4 @@ class MessagesForm extends React.Component {
   }
 }
 
-export default reduxForm({
-  form: 'MessagesForm',
-})(MessagesForm);
+export default MessagesForm;

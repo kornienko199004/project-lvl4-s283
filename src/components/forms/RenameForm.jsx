@@ -11,6 +11,7 @@ const mapStateToProps = (state) => {
 };
 
 @connect(mapStateToProps)
+@reduxForm({ form: 'RenameForm' })
 class RenameForm extends React.Component {
   componentWillMount() {
     const { initialize, uiState } = this.props;
@@ -48,6 +49,4 @@ class RenameForm extends React.Component {
   }
 }
 
-export default reduxForm({
-  form: 'RenameForm',
-})(RenameForm);
+export default RenameForm;
